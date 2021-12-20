@@ -28,7 +28,7 @@ class CheckUpdateTask extends AsyncTask {
 	/**
 	 * @throws Exception
 	 */
-	public function onRun() {
+	public function onRun() : void{
 		$curl = curl_init();
 		curl_setopt_array($curl, [
 			CURLOPT_URL => "https://api.github.com/repos/fuyutsuki/Texter/releases/latest",
@@ -47,8 +47,8 @@ class CheckUpdateTask extends AsyncTask {
 		$this->setResult($data);
 	}
 
-	public function onCompletion(Server $server) {
-		$plugin = $server->getPluginManager()->getPlugin("Texter");
+	public function onCompletion() : void{
+		$plugin = Server::getInstance()->getPluginManager()->getPlugin("Texter");
 		if ($plugin !== null && $plugin->isEnabled()) {
 			/** @var Main $plugin */
 			$data = $this->getResult();

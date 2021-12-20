@@ -60,7 +60,7 @@ class FloatingTextSession {
 	}
 
 	public function setSpacing(?Vector3 $spacing = null) {
-		$this->spacing = $spacing ?? new Vector3;
+		$this->spacing = $spacing ?? new Vector3(0, 0, 0);
 	}
 
 	public function texts(): array {

@@ -60,7 +60,8 @@ class FloatingTextData extends Config {
 
 	public function generateFloatingTexts(Plugin $plugin) {
 		$prepare = new PrepareTextsTask($plugin, $this);
-		$plugin->getScheduler()->scheduleRepeatingTask($prepare, PrepareTextsTask::TICKING_PERIOD);
+		$handler = $plugin->getScheduler()->scheduleRepeatingTask($prepare, PrepareTextsTask::TICKING_PERIOD);
+		$prepare->setHandler($handler);
 	}
 
 	public function folderName(): string {

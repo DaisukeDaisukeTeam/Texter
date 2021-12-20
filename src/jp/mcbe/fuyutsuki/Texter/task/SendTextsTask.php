@@ -7,8 +7,8 @@ namespace jp\mcbe\fuyutsuki\Texter\task;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\level\Level;
-use pocketmine\Player;
+use pocketmine\world\World;
+use pocketmine\player\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\Task;
 
@@ -25,7 +25,7 @@ class SendTextsTask extends Task {
 	private $plugin;
 	/** @var Player */
 	private $target;
-	/** @var Level */
+	/** @var World */
 	private $sendTo;
 	/** @var SendType */
 	private $type;
@@ -33,7 +33,7 @@ class SendTextsTask extends Task {
 	/** @var FloatingTextCluster[] */
 	private $remain;
 
-	public function __construct(Plugin $plugin, Player $target, Level $sendTo, SendType $type) {
+	public function __construct(Plugin $plugin, Player $target, World $sendTo, SendType $type) {
 		$this->plugin = $plugin;
 		$this->target = $target;
 		$this->sendTo = $sendTo;
@@ -42,7 +42,7 @@ class SendTextsTask extends Task {
 		$this->remain = $data !== null ? $data->floatingTexts() : [];
 	}
 
-	public function onRun(int $currentTick) {
+	public function onRun() : void{
 		if (empty($this->remain)) {
 			$this->onSuccess();
 		}else {
@@ -52,6 +52,6 @@ class SendTextsTask extends Task {
 	}
 
 	private function onSuccess() {
-		$this->plugin->getScheduler()->cancelTask($this->getTaskId());
+		$this->getHandler()->cancel();
 	}
 }

@@ -33,7 +33,7 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
@@ -56,17 +56,17 @@ class AddSubCommand extends TexterSubCommand {
 	}
 
 	public function execute(Player $player) {
-		$level = $player->getLevel();
+		$level = $player->getWorld();
 		$folderName = $level->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 		$lang = TexterLang::fromLocale($player->getLocale());
 
 		if ($floatingTextData->notExistsFloatingText($this->name)) {
-			$floatingText = new FloatingTextCluster($player->up(), $this->name, null, [$this->text]);
+			$floatingText = new FloatingTextCluster($player->getPosition()->up(), $this->name, null, [$this->text]);
 			$floatingText->sendToLevel($level, new SendType(SendType::ADD));
 			$floatingTextData->store($floatingText);
 			$floatingTextData->save();
-			FloatingTextSession::remove($player->getLowerCaseName());
+			FloatingTextSession::remove(strtolower($player->getName()));
 			$message = TextFormat::GREEN . $lang->translateString("command.txt.add.success", [
 				$this->name
 			]);

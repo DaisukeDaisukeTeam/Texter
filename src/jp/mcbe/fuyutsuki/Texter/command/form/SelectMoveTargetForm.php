@@ -8,7 +8,7 @@ use jojoe77777\FormAPI\SimpleForm;
 use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
@@ -40,7 +40,7 @@ class SelectMoveTargetForm extends SimpleForm {
 		switch ($data) {
 			case FormLabels::HERE:
 				$subCommand = new MoveSubCommand($this->name);
-				$subCommand->setPosition($player);
+				$subCommand->setPosition($player->getPosition());
 				$subCommand->execute($player);
 				break;
 

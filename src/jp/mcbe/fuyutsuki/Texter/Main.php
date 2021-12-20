@@ -63,15 +63,15 @@ class Main extends PluginBase {
 	/** @var TexterLang */
 	private $lang;
 
-	public function onLoad() {
-		self::setPrefix();
+	public function onLoad() : void{
+		$this->setPrefix();
 		$this->loadResources();
 		$this->registerCommands();
 		$this->loadFloatingTexts();
 		$this->checkUpdate();
 	}
 
-	public function onEnable() {
+	public function onEnable() : void{
 		$pluginManager = $this->getServer()->getPluginManager();
 		if ($this->isPackaged()) {
 			$pluginManager->registerEvents(new EventListener($this), $this);
@@ -162,13 +162,13 @@ class Main extends PluginBase {
 	}
 
 	public function checkUpdate() {
-		if ($this->config->isCheckUpdate()) {
+		/*if ($this->config->isCheckUpdate()) {
 			try {
 				$this->getServer()->getAsyncPool()->submitTask(new CheckUpdateTask);
 			} catch (Exception $ex) {
 				$this->getLogger()->warning($ex->getMessage());
 			}
-		}
+		}*/
 	}
 
 	public function compareVersion(bool $success, ?VersionString $latest = null, string $url = "") {
@@ -285,4 +285,7 @@ class Main extends PluginBase {
 		self::$prefix = "[{$this->getDescription()->getPrefix()}]";
 	}
 
+	protected function isPhar() : bool{
+		return strpos($this->getFile(), "phar://") === 0;
+	}
 }

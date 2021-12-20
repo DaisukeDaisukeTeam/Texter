@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
 use jp\mcbe\fuyutsuki\Texter\data\Data;
-use pocketmine\level\Level;
 use pocketmine\math\Vector3;
 use JsonSerializable;
-use pocketmine\Player;
+use pocketmine\player\Player;
+use pocketmine\world\World;
 
 /**
  * Class FloatingTextCluster
@@ -52,11 +52,12 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 	}
 
 	public function setSpacing(?Vector3 $spacing = null) {
-		$this->spacing = $spacing ?? new Vector3;
+		$this->spacing = $spacing ?? new Vector3(0,0,0);
 	}
 
 	public function calculateSpacing(int $index): Vector3 {
-		return $this->position->add($this->spacing->multiply($index));
+		$vector = $this->spacing->multiply($index);
+		return $this->position->add($vector->x, $vector->y, $vector->z);
 	}
 
 	public function recalculatePosition() {
@@ -111,7 +112,7 @@ class FloatingTextCluster implements Sendable, JsonSerializable {
 		}
 	}
 
-	public function sendToLevel(Level $level, SendType $type) {
+	public function sendToLevel(World $level, SendType $type) {
 		foreach ($this->floatingTexts as $floatingText) {
 			$floatingText->sendToLevel($level, $type);
 		}

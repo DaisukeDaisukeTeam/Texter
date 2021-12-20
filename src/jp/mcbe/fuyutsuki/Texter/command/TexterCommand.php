@@ -35,31 +35,35 @@ use jp\mcbe\fuyutsuki\Texter\command\sub\MoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\command\sub\RemoveSubCommand;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
+use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\PluginCommand;
 use pocketmine\command\utils\InvalidCommandSyntaxException;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
  * Class TexterCommand
  * @package jp\mcbe\fuyutsuki\Texter\command
  */
-class TexterCommand extends PluginCommand {
+class TexterCommand extends Command {
 
 	public const NAME = "txt";
 	public const DESCRIPTION = "command.txt.description";
 	public const USAGE = "command.txt.usage";
 	public const PERMISSION = "texter.command.txt";
 
+	protected $plugin;
+
 	public function __construct(Main $plugin) {
-		parent::__construct(self::NAME, $plugin);
+		parent::__construct(self::NAME);
 		$consoleLang = TexterLang::fromConsole();
 		$description = $consoleLang->translateString(self::DESCRIPTION);
 		$usage = $consoleLang->translateString(self::USAGE);
 		$this->setDescription($description);
 		$this->setUsage($usage);
 		$this->setPermission(self::PERMISSION);
+		$this->setPlugin($plugin);
 	}
 
 	public function execute(CommandSender $sender, string $commandLabel, array $args): bool {
@@ -110,7 +114,7 @@ class TexterCommand extends PluginCommand {
 							if (1 <= $argsCount && $argsCount <= 3) {
 								if ($argsCount !== 2) {
 									if ($args[0] === "here") {
-										$subCommand->setPosition($sender);
+										$subCommand->setPosition($sender->getPosition());
 									}
 									if (!empty($args[0]) && !empty($args[1]) && !empty($args[2])) {
 										$subCommand->setPositionByString($args[0], $args[1], $args[2]);
@@ -153,6 +157,20 @@ class TexterCommand extends PluginCommand {
 			$plugin->getLogger()->info(TextFormat::RED . $message);
 		}
 		return true;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getPlugin(){
+		return $this->plugin;
+	}
+
+	/**
+	 * @param mixed $plugin
+	 */
+	public function setPlugin($plugin) : void{
+		$this->plugin = $plugin;
 	}
 
 }

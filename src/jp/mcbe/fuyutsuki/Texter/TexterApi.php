@@ -30,7 +30,7 @@ namespace jp\mcbe\fuyutsuki\Texter;
 use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\util\Imconstructable;
-use pocketmine\level\Level;
+use pocketmine\world\World;
 
 /**
  * Class TexterApi
@@ -43,11 +43,11 @@ final class TexterApi {
 	/**
 	 * Register FloatingTextCluster to the TexterAPI to show/hide floating text when
 	 * moving between worlds on a server with multiple worlds.
-	 * @param Level $level
+	 * @param World $level
 	 * @param FloatingTextCluster $floatingText
 	 * @return bool registrable?
 	 */
-	public static function register(Level $level, FloatingTextCluster $floatingText): bool {
+	public static function register(World $level, FloatingTextCluster $floatingText): bool {
 		$floatingTextData = FloatingTextData::getInstance($level->getFolderName());
 		if ($floatingTextData->notExistsFloatingText($floatingText->name())) {
 			$floatingTextData->store($floatingText);
@@ -59,11 +59,11 @@ final class TexterApi {
 
 	/**
 	 * Unregister FloatingTextCluster.
-	 * @param Level $level
+	 * @param World $level
 	 * @param FloatingTextCluster $floatingText
 	 * @return bool unregistered?
 	 */
-	public static function unregister(Level $level, FloatingTextCluster $floatingText): bool {
+	public static function unregister(World $level, FloatingTextCluster $floatingText): bool {
 		$floatingTextData = FloatingTextData::getInstance($level->getFolderName());
 		if ($floatingTextData->existsFloatingText($floatingText->name())) {
 			$floatingTextData->removeFloatingText($floatingText->name());

@@ -8,7 +8,7 @@ use jp\mcbe\fuyutsuki\Texter\data\FloatingTextData;
 use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
@@ -29,7 +29,7 @@ class RemoveSubCommand extends TexterSubCommand {
 
 	public function execute(Player $player) {
 		$lang = TexterLang::fromLocale($player->getLocale());
-		$level = $player->getLevel();
+		$level = $player->getWorld();
 		$folderName = $level->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 

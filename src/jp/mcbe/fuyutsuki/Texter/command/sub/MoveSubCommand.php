@@ -9,7 +9,7 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
@@ -39,7 +39,7 @@ class MoveSubCommand extends TexterSubCommand {
 	}
 
 	public function execute(Player $player) {
-		$level = $player->getLevel();
+		$level = $player->getWorld();
 		$folderName = $level->getFolderName();
 		$floatingTextData = FloatingTextData::getInstance($folderName);
 		$lang = TexterLang::fromLocale($player->getLocale());

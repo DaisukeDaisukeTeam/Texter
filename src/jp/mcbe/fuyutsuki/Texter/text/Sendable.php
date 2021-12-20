@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace jp\mcbe\fuyutsuki\Texter\text;
 
 use pocketmine\{
-	level\Level,
-	Player};
+	world\World,
+	player\Player
+};
 
 /**
  * Interface Send-able
@@ -18,6 +19,6 @@ interface Sendable {
 
 	public function sendToPlayers(array $players, SendType $type);
 
-	public function sendToLevel(Level $level, SendType $type);
+	public function sendToLevel(World $level, SendType $type);
 
 }

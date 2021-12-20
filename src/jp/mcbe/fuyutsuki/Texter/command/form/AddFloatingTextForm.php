@@ -11,7 +11,7 @@ use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\FloatingTextCluster;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\utils\TextFormat;
 
 /**
@@ -25,7 +25,7 @@ class AddFloatingTextForm extends CustomForm {
 
 	public function __construct(Player $player) {
 		parent::__construct(null);
-		$playerName = $player->getLowerCaseName();
+		$playerName = strtolower($player->getName());
 		$lang = TexterLang::fromLocale($player->getLocale());
 		$this->session = FloatingTextSession::get($playerName);
 		if ($this->session === null) {
@@ -78,7 +78,7 @@ class AddFloatingTextForm extends CustomForm {
 
 	public function handleResponse(Player $player, $data): void {
 		if ($data === null) {
-			FloatingTextSession::remove($player->getLowerCaseName());
+			FloatingTextSession::remove(strtolower($player->getName()));
 			return;
 		}
 
@@ -117,12 +117,12 @@ class AddFloatingTextForm extends CustomForm {
 			$this->session->addText("");
 			self::send($player);
 		}else {
-			$level = $player->getLevel();
+			$level = $player->getWorld();
 			$folderName = $level->getFolderName();
 			$floatingTextData = FloatingTextData::getInstance($folderName);
 
 			if ($floatingTextData->notExistsFloatingText($this->session->name()) || $this->session->isEdit()) {
-				$pos = $player->up();
+				$pos = $player->getPosition()->up();
 				if ($this->session->isEdit()) {
 					$floatingText = $floatingTextData->floatingText($this->session->name());
 					$floatingText->sendToLevel($level, new SendType(SendType::REMOVE));
@@ -132,7 +132,7 @@ class AddFloatingTextForm extends CustomForm {
 				$floatingText->sendToLevel($level, new SendType(SendType::ADD));
 				$floatingTextData->store($floatingText);
 				$floatingTextData->save();
-				FloatingTextSession::remove($player->getLowerCaseName());
+				FloatingTextSession::remove(strtolower($player->getName()));
 				$operate = $this->session->isEdit() ? "edit" : "add";
 				$message = TextFormat::GREEN . $this->session->lang()->translateString("command.txt.{$operate}.success", [
 					$floatingText->name()

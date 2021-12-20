@@ -10,7 +10,7 @@ use jp\mcbe\fuyutsuki\Texter\i18n\TexterLang;
 use jp\mcbe\fuyutsuki\Texter\Main;
 use jp\mcbe\fuyutsuki\Texter\text\SendType;
 use pocketmine\math\Vector3;
-use pocketmine\Player;
+use pocketmine\player\Player;
 
 /**
  * Class MoveFloatingTextToPositionForm
@@ -54,7 +54,7 @@ class MoveFloatingTextToPositionForm extends CustomForm {
 				floatval($data[FormLabels::Y]),
 				floatval($data[FormLabels::Z])
 			);
-			$level = $player->getLevel();
+			$level = $player->getWorld();
 			$folderName = $level->getFolderName();
 			$floatingTextData = FloatingTextData::getInstance($folderName);
 
