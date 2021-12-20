@@ -2,6 +2,36 @@
 
 ## 4.0.x
 
+### 4.0.7
+
+#### :bug: Bug fix
+
+- Fixed a corruption in the Russian translation file
+
+### 4.0.6
+
+#### :globe_with_meridians: More i18n
+
+- Translated by @iteplenky: Added Russian
+- Removed some unused texts
+
+### 4.0.5
+
+#### :bug: Bug fix
+
+- Fixed a bug that caused the server to crash due to type inconsistency when migrating data from the previous version if the FloatingText name was only a number (#115)
+
+### 4.0.4
+
+#### :arrow_heading_up: Follow pmmp updates
+
+- Confirmed the operation of [pmmp/PocketMine-MP](https://github.com/pmmp/PocketMine-MP) with the latest release `3.19.0` of Minecraft: Bedrock Edition 1.16.220 release
+- Corresponds for changing item stacks (#111)
+
+#### :warning: BCBreak
+
+- Texter now requires PocketMine-MP >= 3.19.0
+
 ### 4.0.3
 
 #### :bug: Bug fix
